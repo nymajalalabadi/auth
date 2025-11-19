@@ -1,5 +1,7 @@
 'use server';
 
+import { createUser } from '../lib/user';
+
 export async function signup(prevState, formData) {
   const email = await formData.get('email');
   const password = await formData.get('password');
@@ -21,6 +23,5 @@ export async function signup(prevState, formData) {
   }
 
 
-  const user = await db.insert('users').values({ email, password }).returning();
-  return user;
+  createUser(email, password);
 }
