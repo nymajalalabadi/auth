@@ -1,6 +1,6 @@
 'use server';
 
-async function signup(formData) {
+export async function signup(formData) {
   const email = await formData.get('email');
   const password = await formData.get('password');
 
@@ -14,12 +14,7 @@ async function signup(formData) {
     errors.password = 'Password must be at least 8 characters long';
   }
 
-  if(Object.keys(errors).length > 0) {
-    return { errors };
-  }
 
   const user = await db.insert('users').values({ email, password }).returning();
   return user;
 }
-
-export { signup };
