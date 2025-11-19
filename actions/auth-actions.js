@@ -22,6 +22,8 @@ export async function signup(prevState, formData) {
      };
   }
 
+  const hashedPassword = hashUserPassword(password);
 
-  createUser(email, password);
+
+  createUser(email, hashedPassword);
 }
