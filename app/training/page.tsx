@@ -1,11 +1,20 @@
+import { verifyAuth } from '@/lib/auth';
 import { getTrainings } from '../../lib/training';
+import { redirect } from 'next/navigation';
 
 export default async function TrainingPage() {
+
+  const { user, session } = await verifyAuth();
+  
   const trainingSessions = getTrainings();
+
+  if(!user) {
+    redirect('/');
+  }
 
   return (
     <main>
-      <h1>Find your favorite activity</h1>
+      <h1>Find your favorite activity, {user.email}</h1>
       <ul id="training-sessions">
         {trainingSessions.map((training) => (
           <li key={training.id}>
