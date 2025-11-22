@@ -103,3 +103,7 @@ export async function auth(mode, prevState, formData) {
     return await signup(prevState, formData);
   }
 }
+
+export async function logout() {
+  redirect('/');
+}
