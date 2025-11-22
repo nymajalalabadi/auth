@@ -3,6 +3,8 @@
 import { createUser } from '../lib/user';
 import { redirect } from 'next/navigation';
 import { createAuthSession } from '../lib/auth';
+import { getUserByEmail } from '../lib/user';
+import { verifyPassword } from '../lib/hash';
 
 export async function signup(prevState, formData) {
   const email = await formData.get('email');
@@ -44,4 +46,50 @@ export async function signup(prevState, formData) {
     throw error;
   }
 
+}
+
+
+export async function login(prevState, formData) {
+  const email = await formData.get('email');
+  const password = await formData.get('password');
+
+  let errors = {};
+
+  if(!email || !email.includes('@')) {
+    errors.email = 'Invalid email address';
+  }
+
+  if(!password || password.trim().length < 8) {
+    errors.password = 'Password must be at least 8 characters long';
+  }
+
+  if(Object.keys(errors).length > 0) {
+    return { 
+        errors: errors
+     };
+  }
+  
+  const user = getUserByEmail(email);
+
+  if(!user) {
+    return { 
+      errors: {
+        email: 'Invalid email address'
+      }
+    };
+  }
+
+  const isPasswordValid = verifyPassword(user.password, password);
+
+  if(!isPasswordValid) {
+    return { 
+      errors: {
+        password: 'Invalid password'
+      }
+    };
+  }
+
+  await createAuthSession(user.id);
+  
+  redirect('/training');
 }
