@@ -1,5 +1,5 @@
 import { verifyAuth } from '@/lib/auth';
-import { getTrainings } from '../../lib/training';
+import { getTrainings } from '@/lib/training';
 import { redirect } from 'next/navigation';
 
 export default async function TrainingPage() {

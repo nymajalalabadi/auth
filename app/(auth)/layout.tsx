@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "../globals.css";
+import { logout } from "@/actions/auth-actions";
 
 
 export const metadata: Metadata = {
@@ -16,7 +17,7 @@ export default function AuthLayout({
       <html lang="en">
         <header id="auth-header">
             <p>welcome to the training app</p>
-            <form >
+            <form action={logout}>
                 <button type="submit">Logout</button>
             </form>
         </header>

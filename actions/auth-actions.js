@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 import { createAuthSession } from '../lib/auth';
 import { getUserByEmail } from '../lib/user';
 import { verifyPassword } from '../lib/hash';
+import { destorySession } from '../lib/auth';
 
 export async function signup(prevState, formData) {
   const email = await formData.get('email');
@@ -105,5 +106,6 @@ export async function auth(mode, prevState, formData) {
 }
 
 export async function logout() {
+  await destorySession();
   redirect('/');
 }
